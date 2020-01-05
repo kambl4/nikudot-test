@@ -1,6 +1,6 @@
 # nikudot
 
-> Nikudot test
+![Dreidel] (https://beplus.life/public/dreidel.png)
 
 ## Build Setup
 
