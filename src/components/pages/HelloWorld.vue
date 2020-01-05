@@ -115,7 +115,7 @@ export default {
       this.finalWordsArray.splice(this.selected.index, 1, word);
     },
     insertVowel (vowel, index) {
-      if (this.isLetterSelected) {
+      if (this.isLetterSelected || vowel.text == 'clear' ) {
         if (vowel.text == 'clear') {
           this.selected.word = this.filterVowels(this.selected.word);
           this.selected.byLetters = this.selected.word.split(this.ABRegExp);
@@ -146,6 +146,7 @@ export default {
           this.finalWordsArray[index] = this.selected.word;
         }
       });
+      this.originalWord = this.selected.word;
       this.selectedLetter = {};
     }
   }
