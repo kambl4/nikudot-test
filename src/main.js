@@ -17,9 +17,9 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 // Fontawesome
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faEdit } from '@fortawesome/free-regular-svg-icons';
+import { faEdit, faCopy } from '@fortawesome/free-regular-svg-icons';
 import { faTasks } from '@fortawesome/free-solid-svg-icons';
-library.add(faEdit, faTasks);
+library.add(faEdit, faTasks, faCopy);
 
 Vue.config.productionTip = false;
 Vue.component('font-awesome-icon', FontAwesomeIcon);

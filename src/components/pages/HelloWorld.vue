@@ -4,6 +4,8 @@
       b-card.sticky(border-variant="warning")
         b-card-title(style="color: gray;") הדבק כאן את הטקסט
         textarea(dir="rtl" v-model="message" v-autosize="message" placeholder="הטקסט" rows="4" autocomplete="off" spellcheck="true" @input="processText")
+        b-button(variant="outline-warning" :disabled="finalWordsArray.length == 0" v-b-tooltip.hover.bottom="'העתק טקסט תוצאות'" @click="copyToClipboard")
+          font-awesome-icon(:icon="['far', 'copy']")
         transition(name="slide-fade")
           div(v-show="hasText")
             hr
@@ -71,6 +73,16 @@ export default {
     }
   },
   methods: {
+    copyToClipboard () {
+      let el = document.createElement('textarea');
+      el.value = this.finalWordsArray.join('');
+      el.setAttribute('readonly', '');
+      el.style = {position: 'absolute', left: '-9999px'};
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
+    },
     filterVowels (word) {
       return word.replace(/[\u0591-\u05C7]/g, '').trim();
     },
