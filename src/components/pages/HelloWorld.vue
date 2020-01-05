@@ -9,7 +9,7 @@
             hr
             div(v-if="isWordSelected")
               .text-center
-                span.word(v-for="(letter, i) in selected.byLetters" v-text="letter" @click="processLetter(letter, i)" style="font-size: 2.5rem;" :style="{ 'color': letter == selectedLetter.letter ? 'green' : 'black' }")
+                span.word(v-for="(letter, i) in selected.byLetters" v-text="letter" @click="processLetter(letter, i)" style="font-size: 2.5rem;" :style="{ 'color': i == selectedLetter.index ? 'green' : 'black' }")
               .d-flex.flex-wrap.justify-content-around.mt-2
                 b-img.vowel-img(v-for="(v, i) in vowels" :key="i" :src="v.img" @click="insertVowel(v, i)" v-b-tooltip.hover.bottom="v.tooltip")
               hr
@@ -17,6 +17,9 @@
               .d-flex.flex-wrap.justify-content-around(style="font-size: 1.5rem;" v-else)
                 span.sug-word.m-1.p-1(v-for="(w, i) in suggestions" v-text="w" :key="i" @click="insertSuggestedWord(w, i)")
             .text-center(style="color: gray;" v-else) בחר מילה
+            hr
+            b-button(variant="outline-warning" :disabled="!isWordSelected" v-b-tooltip.hover.bottom="'להחיל אותו'" @click="applySame")
+              font-awesome-icon(:icon="['fas', 'tasks']")
     b-col(sm="8")
       .text
         span.word(v-for="(w, i) in finalWordsArray" :key="i" v-text="w + ' '" @click="processWord(w, i)" :style="{ 'color': i == selected.index ? 'green' : 'black' }")
@@ -32,7 +35,6 @@ export default {
       message: '',
       selected: {},
       selectedLetter: {},
-      wordsFromDB: [],
       // hasPunctuationRegExp: new RegExp(/[\u2000-\u206F\u2E00-\u2E7F\\'!"#$%&()*+\s\n,\-.\/:;<=>?@\[\]^_`{|}~]/),
       ABRegExp: new RegExp(/(?=[אבגדהוזחטיכךלמםנןסעפףצץקרשת]|\b)/),
       vowels: [
@@ -52,7 +54,9 @@ export default {
       ],
       dbKeys: Object.keys(db),
       suggestions: [],
-      finalWordsArray: []
+      finalWordsArray: [],
+      originalWord: '',
+      sameWordsArray: []
     }
   },
   computed: {
@@ -89,6 +93,7 @@ export default {
       });
     },
     processWord (word, index) {
+      this.originalWord = word;
       let consonants = this.filterVowels(word);
       let byLetters = word.split(this.ABRegExp);
       
@@ -134,6 +139,14 @@ export default {
           title: 'בחר אות'
         });
       }
+    },
+    applySame () {
+      this.finalWordsArray.forEach((word, index) => {
+        if (word == this.originalWord) {
+          this.finalWordsArray[index] = this.selected.word;
+        }
+      });
+      this.selectedLetter = {};
     }
   }
 }
