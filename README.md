@@ -1,6 +1,6 @@
 # nikudot
 
-![Dreidel] (https://beplus.life/public/dreidel.png)
+![Dreidel](https://beplus.life/public/dreidel.png)
 
 ## Build Setup
 
