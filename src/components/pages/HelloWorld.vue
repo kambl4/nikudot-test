@@ -73,6 +73,15 @@ export default {
     }
   },
   methods: {
+    popToast (type, title) {
+      this.$swal({
+        toast: true,
+        position: 'top',
+        showConfirmButton: false, 
+        timer: 3000, 
+        type, title
+      });
+    },
     copyToClipboard () {
       let el = document.createElement('textarea');
       el.value = this.finalWordsArray.join('');
@@ -82,6 +91,7 @@ export default {
       el.select();
       document.execCommand('copy');
       document.body.removeChild(el);
+      this.$popToast('success', '')
     },
     filterVowels (word) {
       return word.replace(/[\u0591-\u05C7]/g, '').trim();
